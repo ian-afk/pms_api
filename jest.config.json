@@ -1,0 +1,6 @@
+{
+  "testEnvironment": "node",
+  "globalSetup": "<rootDir>/src/test/globalSetup.ts",
+  "globalTeardown": "<rootDir>/src/test/globalTeardown.ts",
+  "setupFilesAfterEnv": ["<rootDir>/src/test/setupFilesAfterEnv.ts"]
+}

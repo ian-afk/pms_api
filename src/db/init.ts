@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
 export async function initDatabase() {
-  const DATABASE_URL = "mongodb://localhost:27017/pms";
+  //   const DATABASE_URL = "mongodb://localhost:27017/pms";
+  const DATABASE_URL = process.env.DATABASE_URL;
 
   try {
     await mongoose.connect(DATABASE_URL);

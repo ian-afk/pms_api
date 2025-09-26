@@ -1,6 +1,9 @@
 {
   "dependencies": {
+    "@types/mongoose": "^5.11.96",
     "express": "^5.1.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.18.2",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.27",

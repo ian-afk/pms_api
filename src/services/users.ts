@@ -1,3 +1,21 @@
-import { User } from "../db/models/users";
+import { User } from '../db/models/users';
 
-export async function createPost({}) {}
+export async function createUser({
+  email,
+  name,
+  username,
+  password,
+  passwordConfirm,
+  photo,
+}) {
+  const user = new User({
+    email,
+    name,
+    username,
+    password,
+    passwordConfirm,
+    photo,
+  });
+
+  return await user.save();
+}

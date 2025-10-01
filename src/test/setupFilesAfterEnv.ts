@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
-import { beforeAll, afterAll } from "@jest/globals";
+import mongoose from 'mongoose';
 
-import { initDatabase } from "../db/init";
+import { initDatabase } from '../db/init';
 
 // connect database
 beforeAll(async () => {

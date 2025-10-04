@@ -20,6 +20,6 @@ router.get('/', async (req, res) => {
   });
 });
 
-router.post('/', signup);
+router.post('/signup', signup);
 
 export default router;

@@ -1,8 +1,28 @@
 import { User } from '../db/models/users';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 interface OptionType {
   sortBy: string;
   sortOrder: string;
+}
+
+export async function loginUser({ email, password }) {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('Invalid email or password!');
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  if (!isPasswordCorrect) {
+    throw new Error('Invalid email or password');
+  }
+
+  const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '5m',
+  });
+
+  return token;
 }
 
 export async function createUser({

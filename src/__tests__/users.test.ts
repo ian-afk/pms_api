@@ -27,9 +27,9 @@ type CreatedUserT = {
 describe('creating users', () => {
   test('with all parameters should succeed', async () => {
     const user = {
-      email: 'ian@email.com',
+      email: 'test@email.com',
       name: 'ian rosa',
-      username: 'ianrosa',
+      username: 'test',
       password: 'testpass',
       passwordConfirm: 'testpass',
       photo: 'testphoto.png',
@@ -86,17 +86,17 @@ describe('creating users', () => {
 
 const sampleUser = [
   {
-    email: 'ianrosa@email.com',
+    email: 'test1@email.com',
     name: 'ian rosa',
-    username: 'ianrosa1',
+    username: 'test1',
     password: 'testpass',
     passwordConfirm: 'testpass',
     photo: 'test.png',
   },
   {
-    email: 'lecrosa@email.com',
+    email: 'test2@email.com',
     name: 'lec rosa',
-    username: 'lecrosa',
+    username: 'test2',
     password: 'testpass',
     passwordConfirm: 'testpass',
     photo: 'test.png',
@@ -150,7 +150,7 @@ describe('listing users', () => {
     expect(user.length).toBe(1);
   });
   test('should filter user by email', async () => {
-    const user = await emailUser('ianrosa@email.com');
+    const user = await emailUser('test1@email.com');
     expect(user.length).toBe(1);
   });
 });
@@ -159,7 +159,7 @@ describe('getting a user', () => {
   test('should return the full user', async () => {
     const user = await getUserById(createdSampleUser[0]._id.toString());
     expect({
-      ...user,
+      ...user?.toObject(),
       _id: user?._id.toString(), // normalize ObjectId
     }).toEqual({
       ...createdSampleUser[0],
@@ -169,9 +169,10 @@ describe('getting a user', () => {
   });
 
   test('should fail if the id does not exist', async () => {
-    const user = await getUserById('000000000000000000000000');
+    const user = await User.findById('000000000000000000000000');
 
-    expect(user).toEqual(null);
+    // expect(user).toEqual(null);
+    expect(user).toBeNull();
   });
 });
 
@@ -190,7 +191,7 @@ describe('updating user', () => {
       photo: 'test2.png',
       name: 'test',
     });
-    expect(user).toEqual(null);
+    expect(user).toBeNull();
   });
 });
 

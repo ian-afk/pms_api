@@ -41,7 +41,13 @@ describe('creating users', () => {
 
     const foundUser = await User.findById(createdUser._id);
 
-    expect(foundUser).toEqual(expect.objectContaining(user));
+    expect(foundUser).toEqual(
+      expect.objectContaining({
+        ...user,
+        password: undefined,
+        passwordConfirm: undefined,
+      }),
+    );
     expect(foundUser?.createdAt).toBeInstanceOf(Date);
     expect(foundUser?.updatedAt).toBeInstanceOf(Date);
   });
@@ -155,7 +161,11 @@ describe('getting a user', () => {
     expect({
       ...user,
       _id: user?._id.toString(), // normalize ObjectId
-    }).toEqual(createdSampleUser[0]);
+    }).toEqual({
+      ...createdSampleUser[0],
+      password: undefined,
+      passwordConfirm: undefined,
+    });
   });
 
   test('should fail if the id does not exist', async () => {
@@ -163,24 +173,24 @@ describe('getting a user', () => {
 
     expect(user).toEqual(null);
   });
+});
 
-  describe('updating user', () => {
-    test('should update the specified property', async () => {
-      await updateUser(createdSampleUser[0]._id, {
-        photo: 'test2.png',
-        name: 'im new now',
-      });
+describe('updating user', () => {
+  test('should update the specified property', async () => {
+    await updateUser(createdSampleUser[0]._id, {
+      photo: 'test2.png',
+      name: 'im new now',
+    });
 
-      const updatedUser = await User.findById(createdSampleUser[0]._id);
-      expect(updatedUser?.name).toEqual('im new now');
+    const updatedUser = await User.findById(createdSampleUser[0]._id);
+    expect(updatedUser?.name).toEqual('im new now');
+  });
+  test('should fail if the id does not exists', async () => {
+    const user = await updateUser('000000000000000000000000', {
+      photo: 'test2.png',
+      name: 'test',
     });
-    test('should fail if the id does not exists', async () => {
-      const user = await updateUser('000000000000000000000000', {
-        photo: 'test2.png',
-        name: 'test',
-      });
-      expect(user).toEqual(null);
-    });
+    expect(user).toEqual(null);
   });
 });
 

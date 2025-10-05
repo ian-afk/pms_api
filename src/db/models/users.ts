@@ -34,6 +34,7 @@ const userSchema = new Schema(
       },
     },
     photo: String,
+    passwordChangedAt: Date,
     // roleId: { type: String, required: Number },
   },
   {
@@ -49,4 +50,16 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      String(this.passwordChangedAt.getTime() / 1000),
+      10,
+    );
+    console.log(changedTimestamp, JWTTimestamp);
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+};
 export const User = mongoose.model('user', userSchema);

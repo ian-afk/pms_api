@@ -2,6 +2,7 @@ import { User } from '../db/models/users';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../utils/AppError';
+import { Types } from 'mongoose';
 
 interface OptionType {
   sortBy: string;
@@ -88,7 +89,13 @@ export async function emailUser(email: string) {
 }
 
 export async function getUserById(userId: string) {
-  return await User.findById(userId).lean();
+  if (!Types.ObjectId.isValid(userId)) {
+    throw new AppError('Invalid userId', 400);
+  }
+
+  const user = await User.findById({ _id: userId });
+  if (!user) throw new AppError(`User ID doesn't exists`, 404);
+  return user;
 }
 
 export async function updateUser(userId: string, { name, photo }) {

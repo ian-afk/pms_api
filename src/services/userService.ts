@@ -1,30 +1,52 @@
 import { User } from '../db/models/users';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { AppError } from '../utils/AppError';
 
 interface OptionType {
   sortBy: string;
   sortOrder: string;
 }
 
+const signToken = (id: string) =>
+  jwt.sign({ id }, process.env.JWT_SECRET as string, {
+    expiresIn: '5m',
+  });
 export async function loginUser({ email, password }) {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select('+password');
+
   if (!user) {
-    throw new Error('Invalid email or password!');
+    throw new AppError('Invalid email or password!', 400);
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   if (!isPasswordCorrect) {
-    throw new Error('Invalid email or password');
+    throw new AppError('Invalid email or password!', 400);
   }
 
-  const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, {
-    expiresIn: '5m',
-  });
+  const token = signToken(user._id.toString());
 
   return token;
 }
 
+export async function signupUser({
+  name,
+  username,
+  email,
+  password,
+  passwordConfirm,
+}) {
+  const newUser = await User.create({
+    name,
+    username,
+    email,
+    password,
+    passwordConfirm,
+  });
+
+  const token = signToken(newUser._id.toString());
+  return { token, user: { ...newUser.toObject(), password: undefined } };
+}
 export async function createUser({
   email,
   name,

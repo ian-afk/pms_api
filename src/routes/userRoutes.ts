@@ -1,25 +1,14 @@
 import { Router } from 'express';
-import { signup } from '../controllers/authController';
+import { signin, signup } from '../controllers/authController';
+import { getAllUser, getUser } from '../controllers/userController';
+import { protect } from '../middlewares/protectRoute';
 const router = Router();
 
-router.get('/', async (req, res) => {
-  // const { sortBy, sortOrder, name, email } = req.query;
-
-  // const options = { sortBy, sortOrder };
-
-  // try {
-  //   if (name && email) {
-  //     return res
-  //       .status(400)
-  //       .json({ error: 'query by either name or email, not both' });
-  //   }
-  // } catch (error) {}
-  return res.status(200).json({
-    status: 'success',
-    message: 'all user',
-  });
-});
+router.route('/').get(protect, getAllUser);
+router.route('/:id').get(protect, getUser);
+// router.route('/me').get(getUser);
 
 router.post('/signup', signup);
+router.post('/signin', signin);
 
 export default router;

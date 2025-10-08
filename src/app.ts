@@ -5,6 +5,7 @@ import express, {
   Response,
 } from 'express';
 import userRouter from './routes/userRoutes';
+import roleRouter from './routes/roleRoutes';
 import cors from 'cors';
 import { AppError } from './utils/AppError';
 import { globalErrorHandler } from './middlewares/errorHandler';
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 // routes
 // app.use('/api/users', userRouter);
 app.use('/api/users', userRouter);
+app.use('/api/roles', roleRouter);
 
 // new express way regex the app.all handler (before '*')
 app.all(/.*/, (req: Request, res: Response, next: NextFunction) => {

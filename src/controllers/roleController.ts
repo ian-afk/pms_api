@@ -1,11 +1,11 @@
 import { catchAsync } from '../utils/catchAsync';
 import {
   listAllRoles,
-  listRoleById,
+  getRoleById,
   createRole,
   deleteRole,
   updateRole,
-  listRoleByName,
+  getRoleByName,
 } from '../services/roleService';
 
 export const getAllRoles = catchAsync(async (req, res, next) => {
@@ -18,7 +18,7 @@ export const getAllRoles = catchAsync(async (req, res, next) => {
 });
 
 export const getRole = catchAsync(async (req, res, next) => {
-  const role = await listRoleById(req.params.id);
+  const role = await getRoleById(req.params.id);
 
   res.status(200).json({
     status: 'success',
@@ -26,8 +26,8 @@ export const getRole = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getRoleByName = catchAsync(async (req, res, next) => {
-  const role = await listRoleByName(req.body.name);
+export const getRolesByName = catchAsync(async (req, res, next) => {
+  const role = await getRoleByName(req.body.name);
 
   res.status(200).json({
     status: 'success',
@@ -36,8 +36,8 @@ export const getRoleByName = catchAsync(async (req, res, next) => {
 });
 
 export const createRoles = catchAsync(async (req, res, next) => {
-  const { role, name, description, rights } = req.body;
-  const newRole = await createRole({ role, name, description, rights });
+  const { role, description, rights } = req.body;
+  const newRole = await createRole({ role, description, rights });
 
   res.status(201).json({
     status: 'success',

@@ -1,4 +1,6 @@
+import { Types } from 'mongoose';
 import { Role } from '../db/models/roles';
+import { AppError } from '../utils/AppError';
 
 interface OptionType {
   sortBy: string;
@@ -6,15 +8,14 @@ interface OptionType {
 }
 
 interface IUpdateRole {
-  name?: string;
-  description: string;
-  rights: string;
+  role?: string;
+  description?: string;
+  rights?: string;
 }
 
-export async function createRole({ role, name, description, rights }) {
+export async function createRole({ role, description, rights }) {
   const newRole = new Role({
     role,
-    name,
     description,
     rights,
   });
@@ -35,20 +36,26 @@ export async function listAllRoles(options?: OptionType) {
   return await listRoles({}, options);
 }
 
-export async function listRoleById(roleId: string, options?: OptionType) {
-  return await listRoles({ _id: roleId });
+export async function getRoleById(roleId: string, options?: OptionType) {
+  if (!Types.ObjectId.isValid(roleId)) {
+    throw new AppError('Invalid roleId', 400);
+  }
+
+  const role = await Role.findById({ _id: roleId }).lean();
+  if (!role) throw new AppError(`Role ID doesn't exists`, 404);
+  return role;
 }
 
-export async function listRoleByName(name: string, options?: OptionType) {
-  return await listRoles({ name }, options);
+export async function getRoleByName(name: string, options?: OptionType) {
+  return await listRoles({ role: name }, options);
 }
 
 export async function updateRole(
   roleId: string,
-  { name, description, rights }: IUpdateRole,
+  { role, description, rights }: IUpdateRole,
 ) {
   const columnUpdate = Object.fromEntries(
-    Object.entries({ name, description, rights }).filter(
+    Object.entries({ role, description, rights }).filter(
       ([_, v]) => v !== undefined,
     ),
   );

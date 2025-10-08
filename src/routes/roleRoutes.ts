@@ -3,7 +3,7 @@ import {
   deleteRoles,
   getAllRoles,
   getRole,
-  getRoleByName,
+  getRolesByName,
   updateRoles,
 } from '../controllers/roleController';
 import { Router } from 'express';
@@ -13,5 +13,5 @@ const router = Router();
 router.route('/').get(getAllRoles).post(createRoles);
 
 router.route('/:id').get(getRole).patch(updateRoles).delete(deleteRoles);
-router.route('/:name').get(getRoleByName);
+router.route('/:name').get(getRolesByName);
 export default router;

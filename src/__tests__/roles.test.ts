@@ -20,7 +20,7 @@ type CreatedRoleT = {
 };
 
 beforeEach(async () => {
-  await Role.deleteMany({});
+  await Role.deleteMany({}).exec();
 });
 
 describe('create role', () => {
@@ -78,7 +78,7 @@ const sampleRole = [
     rights: ['get_role'],
   },
   {
-    role: 'Super Admin',
+    role: 'Admin',
     description: 'Have all access',
     rights: [
       ...Rights.ROLES.ALL,
@@ -93,7 +93,7 @@ const sampleRole = [
 let createdSampleRole: CreatedRoleT[] = [];
 
 beforeEach(async () => {
-  await Role.deleteMany({});
+  await Role.deleteMany({}).exec();
   const insertedRole = (await Role.insertMany(sampleRole)) as any[];
 
   createdSampleRole = insertedRole.map((r) => ({
@@ -112,7 +112,7 @@ describe('listing roles', () => {
 
 describe('getting role', () => {
   test('should get role by name', async () => {
-    const role = await getRoleByName('Super Admin');
+    const role = await getRoleByName('Admin');
 
     expect(role.length).toBe(1);
   });

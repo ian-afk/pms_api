@@ -12,6 +12,9 @@ import {
 import { User } from '../db/models/users';
 
 import { describe, test, expect, beforeEach } from '@jest/globals';
+import { Rights } from '../utils/common';
+import { createRole } from '../services/roleService';
+import { Role } from '../db/models/roles';
 
 type CreatedUserT = {
   _id: string;
@@ -24,8 +27,20 @@ type CreatedUserT = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+beforeEach(async () => {
+  await User.deleteMany();
+  await Role.deleteMany();
+});
 describe('creating users', () => {
   test('with all parameters should succeed', async () => {
+    const role = {
+      role: 'Staff',
+      description: 'Staff level only can view and limited access',
+      rights: [Rights.COMMENTS.GET_ALL, Rights.COMMENTS.GET_DETAILS],
+    };
+
+    const createdRole = await Role.create(role);
     const user = {
       email: 'test@email.com',
       name: 'ian rosa',
@@ -35,7 +50,7 @@ describe('creating users', () => {
       photo: 'testphoto.png',
     };
 
-    const createdUser = await createUser(user);
+    const createdUser = await createUser({ ...user, role: createdRole._id });
 
     expect(createdUser._id).toBeInstanceOf(mongoose.Types.ObjectId);
 
@@ -52,12 +67,21 @@ describe('creating users', () => {
     expect(foundUser?.updatedAt).toBeInstanceOf(Date);
   });
   test('without required fields should fail', async () => {
+    const role = {
+      role: 'Admin',
+      description: 'Staff level only can view and limited access',
+      rights: [Rights.COMMENTS.GET_ALL, Rights.COMMENTS.GET_DETAILS],
+    };
+
+    const createdRole = await createRole(role);
+
     const user = {
       name: 'ian rosa',
       username: 'ianrosa',
       password: 'testpass',
       passwordConfirm: 'testpass',
       photo: 'testphoto.png',
+      role: createdRole._id,
     } as any;
 
     try {
@@ -68,12 +92,20 @@ describe('creating users', () => {
     }
   });
   test('with invalid email should fail', async () => {
+    const role = {
+      role: 'Super Admin',
+      description: 'Staff level only can view and limited access',
+      rights: [Rights.COMMENTS.GET_ALL, Rights.COMMENTS.GET_DETAILS],
+    };
+
+    const createdRole = await createRole(role);
     const user = {
       email: 'test',
       name: 'ian rosa',
       username: 'ianrosa',
       password: 'testpass',
       passwordConfirm: 'testpass',
+      role: createdRole._id,
     } as any;
     try {
       await createUser(user);
@@ -108,8 +140,19 @@ let createdSampleUser: CreatedUserT[] = [];
 beforeEach(async () => {
   await User.deleteMany({});
   createdSampleUser = [];
+
+  const role = {
+    role: 'Visitor',
+    description: 'Staff level only can view and limited access',
+    rights: [Rights.COMMENTS.GET_ALL, Rights.COMMENTS.GET_DETAILS],
+  };
+
+  const createdRole = await createRole(role);
   for (const user of sampleUser) {
-    const createdUser = await new User(user).save();
+    const createdUser = await new User({
+      ...user,
+      role: createdRole._id,
+    }).save();
 
     const fuser: CreatedUserT = {
       ...(createdUser.toObject() as any),

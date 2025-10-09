@@ -55,6 +55,7 @@ export async function createUser({
   password,
   passwordConfirm,
   photo,
+  role,
 }) {
   const user = new User({
     email,
@@ -63,6 +64,7 @@ export async function createUser({
     password,
     passwordConfirm,
     photo,
+    role,
   });
 
   return await user.save();

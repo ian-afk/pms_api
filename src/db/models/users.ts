@@ -35,7 +35,11 @@ const userSchema = new Schema(
     },
     photo: String,
     passwordChangedAt: Date,
-    // roleId: { type: String, required: Number },
+    role: {
+      type: Schema.Types.ObjectId,
+      ref: 'role',
+      require: [true, 'User role is required'],
+    },
   },
   {
     timestamps: true,

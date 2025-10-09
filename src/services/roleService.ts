@@ -2,10 +2,7 @@ import { Types } from 'mongoose';
 import { Role } from '../db/models/roles';
 import { AppError } from '../utils/AppError';
 
-interface OptionType {
-  sortBy: string;
-  sortOrder: string;
-}
+import { OptionType } from '../types/commonType';
 
 interface IUpdateRole {
   role?: string;

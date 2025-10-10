@@ -9,7 +9,12 @@ import {
 } from '../services/roleService';
 
 export const getAllRoles = catchAsync(async (req, res, next) => {
-  const roles = await listAllRoles();
+  const { sortBy, sortOrder } = req.query as {
+    sortBy?: string;
+    sortOrder?: string;
+    [key: string]: any;
+  };
+  const roles = await listAllRoles(req.query, { sortBy, sortOrder });
 
   res.status(200).json({
     status: 'success',

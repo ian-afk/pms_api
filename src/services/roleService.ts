@@ -2,10 +2,7 @@ import { Types } from 'mongoose';
 import { Role } from '../db/models/roles';
 import { AppError } from '../utils/AppError';
 
-interface OptionType {
-  sortBy: string;
-  sortOrder: string;
-}
+import { OptionType } from '../types/commonType';
 
 interface IUpdateRole {
   role?: string;
@@ -29,11 +26,24 @@ export async function listRoles(
 ) {
   const order = sortOrder === 'descending' ? -1 : 1;
 
-  return await Role.find(query).sort({ [sortBy]: order });
+  const sortField = sortBy || 'createdAt';
+
+  const filter: Record<string, any> = {};
+
+  for (const key in query) {
+    console.log(key);
+    if (key !== 'sortBy' && key !== 'sortOrder') {
+      filter[key] = { $regex: query[key], $options: 'i' };
+    }
+  }
+  console.log(filter);
+  const role = await Role.find(filter).sort({ [sortField]: order });
+  console.log(role);
+  return role;
 }
 
-export async function listAllRoles(options?: OptionType) {
-  return await listRoles({}, options);
+export async function listAllRoles(query, options?: OptionType) {
+  return await listRoles(query, options);
 }
 
 export async function getRoleById(roleId: string, options?: OptionType) {

@@ -25,7 +25,7 @@ const userSchema = new Schema(
     },
     passwordConfirm: {
       type: String,
-      require: [true, 'Please confirm your password'],
+      required: [true, 'Please confirm your password'],
       validate: {
         validator: function (el: string) {
           return el === this.password;
@@ -37,8 +37,8 @@ const userSchema = new Schema(
     passwordChangedAt: Date,
     role: {
       type: Schema.Types.ObjectId,
-      ref: 'role',
-      require: [true, 'User role is required'],
+      ref: 'Role',
+      required: [true, 'User role is required'],
     },
   },
   {
@@ -66,4 +66,4 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   }
   return false;
 };
-export const User = mongoose.model('user', userSchema);
+export const User = mongoose.model('User', userSchema);

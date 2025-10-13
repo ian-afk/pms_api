@@ -1,7 +1,7 @@
 // eslint.config.js
-import { defineConfig } from "eslint/config";
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import { defineConfig } from 'eslint/config';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig([
   js.configs.recommended,
@@ -12,7 +12,7 @@ export default defineConfig([
       parser: tseslint.parser,
       parserOptions: {
         ecmaVersion: 2021,
-        sourceType: "module",
+        sourceType: 'module',
       },
       globals: {
         browser: true,
@@ -20,15 +20,16 @@ export default defineConfig([
       },
     },
     plugins: {
-      "@typescript-eslint": tseslint.plugin,
+      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-unused-vars": "error",
-      "no-console": "warn",
-      indent: ["error", 2],
-      quotes: ["error", "single"],
-      semi: ["error", "always"],
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'off',
+      quotes: ['error', 'single', { allowTemplateLiterals: true }],
+      'no-console': 'warn',
+      indent: ['error', 2],
+      semi: ['error', 'always'],
     },
   },
 ]);

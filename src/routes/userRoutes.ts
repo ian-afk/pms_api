@@ -4,12 +4,19 @@ import {
   getUsers,
   getUserById,
   createUser,
+  deleteUser,
+  updateUsers,
 } from '../controllers/userController';
 import { protect } from '../middlewares/protectRoute';
+
 const router = Router();
 
 router.route('/').get(protect, getUsers).post(createUser);
-router.route('/:id').get(protect, getUserById);
+router
+  .route('/:id')
+  .get(protect, getUserById)
+  .patch(protect, updateUsers)
+  .delete(protect, deleteUser);
 // router.route('/me').get(getUser);
 
 router.post('/signup', signup);

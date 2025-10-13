@@ -69,14 +69,24 @@ export async function createUser({
 
 async function listUsers(
   query = {},
-  { sortBy = 'createdAt', sortOrder = 'descending' } = {},
+  { sortBy = 'createdAt', sortOrder = 'desc' } = {},
 ) {
-  const order = sortOrder === 'descending' ? -1 : 1;
-  return await User.find(query).sort({ [sortBy]: order });
+  const order = sortOrder === 'desc' ? -1 : 1;
+
+  const sortField = sortBy || 'createdAt';
+
+  const filter: Record<string, any> = {};
+
+  for (const key in query) {
+    if (key !== 'sortBy' && key !== 'sortOrder') {
+      filter[key] = { $regex: query[key], $options: 'i' };
+    }
+  }
+  return await User.find(filter).sort({ [sortField]: order });
 }
 
-export async function listAllUsers(options?: OptionType) {
-  return await listUsers({}, options);
+export async function listAllUsers(query, options?: OptionType) {
+  return await listUsers(query, options);
 }
 
 export async function listUserByName(name: string, options?: OptionType) {

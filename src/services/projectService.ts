@@ -24,18 +24,29 @@ export async function createProject({
 
 export async function listProject(
   query = {},
-  { sortBy = 'createdAt', sortOrder = 'descending' } = {},
+  { sortBy = 'createdAt', sortOrder = 'desc' } = {},
 ) {
-  const order = sortOrder === 'descending' ? -1 : 1;
+  const order = sortOrder === 'desc' ? -1 : 1;
 
-  return await Project.find(query).sort({ [sortBy]: order });
+  const sortField = sortBy || 'createdAt';
+
+  const filter: Record<string, any> = {};
+
+  for (const key in query) {
+    if (key !== 'sortBy' && key !== 'sortOrder') {
+      filter[key] = { $regex: query[key], $options: 'i' };
+    }
+  }
+
+  const project = await Project.find(filter).sort({ [sortField]: order });
+  return project;
 }
 
-export async function listAllProject(options?: OptionType) {
-  return await listProject({}, options);
+export async function listAllProject(query, options?: OptionType) {
+  return await listProject(query, options);
 }
 
-export async function getProjectById(projectId: string, options?: OptionType) {
+export async function findProjectById(projectId: string) {
   const project = await Project.findById({ _id: projectId }).lean();
 
   if (!project)
@@ -67,7 +78,7 @@ export async function updateProject(
       startTime,
       endTime,
       user,
-    }).filter(([_, v]) => v !== undefined),
+    }).filter(([, v]) => v !== undefined),
   );
 
   return await Project.findOneAndUpdate(

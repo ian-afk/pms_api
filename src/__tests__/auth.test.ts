@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from '@jest/globals';
+import { describe, test, expect } from '@jest/globals';
 import mongoose from 'mongoose';
 
 import { User } from '../db/models/users';
@@ -72,8 +72,9 @@ describe('signing up user', () => {
     try {
       await createUser(user);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message);
     }
   });
   test('should fail without required fields', async () => {
@@ -88,8 +89,9 @@ describe('signing up user', () => {
     try {
       await createUser(user);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message);
     }
   });
 });

@@ -4,8 +4,8 @@ import {
   listAllProject,
   updateProject,
   deleteProject as deleteProjectService,
-} from 'services/projectService';
-import { catchAsync } from 'utils/catchAsync';
+} from '../services/projectService';
+import { catchAsync } from '../utils/catchAsync';
 
 export const createProject = catchAsync(async (req, res) => {
   const newProject = await createProjectService(req.body);

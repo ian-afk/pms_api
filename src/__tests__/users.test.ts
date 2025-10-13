@@ -166,11 +166,11 @@ beforeEach(async () => {
 
 describe('listing users', () => {
   test('should return all users', async () => {
-    const user = await listAllUsers();
+    const user = await listAllUsers({});
     expect(user.length).toEqual(createdSampleUser.length);
   });
   test('should return sorted user by creation date descending by default', async () => {
-    const user = await listAllUsers();
+    const user = await listAllUsers({});
     const sortedSampleUsers = createdSampleUser.sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
     );
@@ -179,10 +179,13 @@ describe('listing users', () => {
     ).toEqual(sortedSampleUsers.map((user) => user.createdAt.getTime()));
   });
   test('should take into account provided sorting options', async () => {
-    const user = await listAllUsers({
-      sortBy: 'updatedAt',
-      sortOrder: 'ascending',
-    });
+    const user = await listAllUsers(
+      {},
+      {
+        sortBy: 'updatedAt',
+        sortOrder: 'ascending',
+      },
+    );
     const sortedSampleUsers = createdSampleUser.sort(
       (a, b) => a.updatedAt.getTime() - b.updatedAt.getTime(),
     );

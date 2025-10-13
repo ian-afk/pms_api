@@ -4,7 +4,7 @@ import {
   createUser,
   deleteUser,
   emailUser,
-  getUserById,
+  findUserById,
   listAllUsers,
   listUserByName,
   updateUser,
@@ -87,8 +87,9 @@ describe('creating users', () => {
     try {
       await createUser(user);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message);
     }
   });
   test('with invalid email should fail', async () => {
@@ -110,8 +111,9 @@ describe('creating users', () => {
     try {
       await createUser(user);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message);
     }
   });
 });
@@ -164,11 +166,11 @@ beforeEach(async () => {
 
 describe('listing users', () => {
   test('should return all users', async () => {
-    const user = await listAllUsers();
+    const user = await listAllUsers({});
     expect(user.length).toEqual(createdSampleUser.length);
   });
   test('should return sorted user by creation date descending by default', async () => {
-    const user = await listAllUsers();
+    const user = await listAllUsers({});
     const sortedSampleUsers = createdSampleUser.sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
     );
@@ -177,10 +179,13 @@ describe('listing users', () => {
     ).toEqual(sortedSampleUsers.map((user) => user.createdAt.getTime()));
   });
   test('should take into account provided sorting options', async () => {
-    const user = await listAllUsers({
-      sortBy: 'updatedAt',
-      sortOrder: 'ascending',
-    });
+    const user = await listAllUsers(
+      {},
+      {
+        sortBy: 'updatedAt',
+        sortOrder: 'ascending',
+      },
+    );
     const sortedSampleUsers = createdSampleUser.sort(
       (a, b) => a.updatedAt.getTime() - b.updatedAt.getTime(),
     );
@@ -200,7 +205,7 @@ describe('listing users', () => {
 
 describe('getting a user', () => {
   test('should return the full user', async () => {
-    const user = await getUserById(createdSampleUser[0]._id.toString());
+    const user = await findUserById(createdSampleUser[0]._id.toString());
     expect({
       ...user?.toObject(),
       _id: user?._id.toString(), // normalize ObjectId

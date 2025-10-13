@@ -1,8 +1,6 @@
-import { promisify } from 'util';
 import { AppError } from '../utils/AppError';
 import { catchAsync } from '../utils/catchAsync';
 import jwt from 'jsonwebtoken';
-import { getUserById } from '../services/userService';
 import { User } from '../db/models/users';
 
 interface JwtPayload {

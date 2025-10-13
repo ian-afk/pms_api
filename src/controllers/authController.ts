@@ -1,9 +1,8 @@
 import { AppError } from '../utils/AppError';
-import { User } from '../db/models/users';
-import { createUser, loginUser, signupUser } from '../services/userService';
+import { loginUser, signupUser } from '../services/userService';
 import { catchAsync } from '../utils/catchAsync';
 
-export const signup = catchAsync(async (req, res, next) => {
+export const signup = catchAsync(async (req, res) => {
   const { name, username, email, password, passwordConfirm } = req.body;
   const newUser = await signupUser({
     name,
@@ -19,7 +18,7 @@ export const signup = catchAsync(async (req, res, next) => {
   });
 });
 
-export const signin = catchAsync(async (req, res, next) => {
+export const signin = catchAsync(async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {

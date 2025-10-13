@@ -4,7 +4,7 @@ import {
   createUser,
   deleteUser,
   emailUser,
-  getUserById,
+  findUserById,
   listAllUsers,
   listUserByName,
   updateUser,
@@ -87,8 +87,9 @@ describe('creating users', () => {
     try {
       await createUser(user);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message);
     }
   });
   test('with invalid email should fail', async () => {
@@ -110,8 +111,9 @@ describe('creating users', () => {
     try {
       await createUser(user);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message);
     }
   });
 });
@@ -200,7 +202,7 @@ describe('listing users', () => {
 
 describe('getting a user', () => {
   test('should return the full user', async () => {
-    const user = await getUserById(createdSampleUser[0]._id.toString());
+    const user = await findUserById(createdSampleUser[0]._id.toString());
     expect({
       ...user?.toObject(),
       _id: user?._id.toString(), // normalize ObjectId

@@ -87,7 +87,7 @@ export async function emailUser(email: string) {
   return await listUsers({ email });
 }
 
-export async function getUserById(userId: string) {
+export async function findUserById(userId: string) {
   if (!Types.ObjectId.isValid(userId)) {
     throw new AppError('Invalid userId', 400);
   }

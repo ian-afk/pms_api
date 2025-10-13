@@ -1,21 +1,14 @@
-import { Request } from 'express';
 import {
-  createProject,
-  getProjectById,
-  getProjectByName,
+  createProject as createProjectService,
+  findProjectById,
   listAllProject,
   updateProject,
+  deleteProject as deleteProjectService,
 } from 'services/projectService';
 import { catchAsync } from 'utils/catchAsync';
 
-interface ProjectQuery {
-  projName?: string;
-  sortBy?: string;
-  sortOrder?: string;
-}
-
-export const addProject = catchAsync(async (req, res, next) => {
-  const newProject = await createProject(req.body);
+export const createProject = catchAsync(async (req, res) => {
+  const newProject = await createProjectService(req.body);
 
   res.status(201).json({
     status: 'success',
@@ -23,8 +16,13 @@ export const addProject = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getAllProject = catchAsync(async (req, res, next) => {
-  const project = await listAllProject();
+export const getProjects = catchAsync(async (req, res) => {
+  const { sortBy, sortOrder } = req.query as {
+    sortBy?: string;
+    sortOrder?: string;
+    [key: string]: any;
+  };
+  const project = await listAllProject(req.query, { sortBy, sortOrder });
 
   res.status(200).json({
     status: 'success',
@@ -32,8 +30,8 @@ export const getAllProject = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getProjectId = catchAsync(async (req, res, next) => {
-  const project = await getProjectById(req.params.id);
+export const getProjectId = catchAsync(async (req, res) => {
+  const project = await findProjectById(req.params.id);
 
   res.status(200).json({
     status: 'success',
@@ -41,20 +39,7 @@ export const getProjectId = catchAsync(async (req, res, next) => {
   });
 });
 
-export const getProjectName = catchAsync(
-  async (req: Request<{}, {}, {}, ProjectQuery>, res, next) => {
-    const { projName, sortBy, sortOrder } = req.query;
-
-    const project = await getProjectByName(projName, { sortBy, sortOrder });
-
-    res.status(200).json({
-      status: 'success',
-      project,
-    });
-  },
-);
-
-export const updateProjects = catchAsync(async (req, res, next) => {
+export const updateProjects = catchAsync(async (req, res) => {
   const projectId = req.params.id;
   const project = await updateProject(projectId, req.body);
 
@@ -62,5 +47,16 @@ export const updateProjects = catchAsync(async (req, res, next) => {
     status: 'success',
     message: 'Project updated successfully',
     project,
+  });
+});
+
+export const deleteProject = catchAsync(async (req, res) => {
+  const projectId = req.params.id;
+
+  await deleteProjectService(projectId);
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Project deleted successfully',
   });
 });

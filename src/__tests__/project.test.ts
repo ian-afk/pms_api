@@ -7,7 +7,7 @@ import { Project } from '../db/models/project';
 
 import {
   deleteProject,
-  getProjectById,
+  findProjectById,
   getProjectByName,
   listAllProject,
   updateProject,
@@ -72,9 +72,9 @@ describe('creating project', () => {
     try {
       await Project.create(project);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
-      console.log(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message);
     }
   });
 });
@@ -117,7 +117,7 @@ beforeEach(async () => {
 
 describe('listing project', () => {
   test('should return all project', async () => {
-    const project = await listAllProject();
+    const project = await listAllProject({});
 
     expect(project.length).toEqual(createdSampleProject.length);
   });
@@ -127,7 +127,7 @@ describe('listing project', () => {
     expect(project.length).toBe(1);
   });
   test('should return project by id', async () => {
-    const project = await getProjectById(createdSampleProject[0]._id);
+    const project = await findProjectById(createdSampleProject[0]._id);
     expect(project?._id.toString()).toBe(createdSampleProject[0]._id);
   });
   test('should fail if the id does not exist', async () => {

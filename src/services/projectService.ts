@@ -31,11 +31,11 @@ export async function listProject(
   return await Project.find(query).sort({ [sortBy]: order });
 }
 
-export async function listAllProject(options?: OptionType) {
-  return await listProject({}, options);
+export async function listAllProject(query, options?: OptionType) {
+  return await listProject(query, options);
 }
 
-export async function getProjectById(projectId: string, options?: OptionType) {
+export async function findProjectById(projectId: string) {
   const project = await Project.findById({ _id: projectId }).lean();
 
   if (!project)
@@ -67,7 +67,7 @@ export async function updateProject(
       startTime,
       endTime,
       user,
-    }).filter(([_, v]) => v !== undefined),
+    }).filter(([, v]) => v !== undefined),
   );
 
   return await Project.findOneAndUpdate(

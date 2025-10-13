@@ -3,7 +3,7 @@ import { describe, test, expect, beforeEach } from '@jest/globals';
 import {
   createRole,
   listAllRoles,
-  getRoleById,
+  findRoleById,
   getRoleByName,
   deleteRole,
   updateRole,
@@ -65,8 +65,9 @@ describe('create role', () => {
     try {
       await createRole(roleData);
     } catch (error) {
-      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
-      expect(error.message);
+      const err = error as mongoose.Error.ValidationError;
+      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(err.message).toBeDefined();
     }
   });
 });
@@ -104,9 +105,9 @@ beforeEach(async () => {
 
 describe('listing roles', () => {
   test('should return all roles', async () => {
-    const roles = await listAllRoles();
+    const roles = await listAllRoles({});
 
-    expect(sampleRole.length).toEqual(createdSampleRole.length);
+    expect(roles.length).toEqual(createdSampleRole.length);
   });
 });
 
@@ -118,7 +119,7 @@ describe('getting role', () => {
   });
 
   test('should get role by id', async () => {
-    const role = await getRoleById(createdSampleRole[0]._id);
+    const role = await findRoleById(createdSampleRole[0]._id);
     expect(role?._id.toString()).toBe(createdSampleRole[0]._id);
   });
   test('should fail if the id does not exist', async () => {

@@ -31,14 +31,11 @@ export async function listRoles(
   const filter: Record<string, any> = {};
 
   for (const key in query) {
-    console.log(key);
     if (key !== 'sortBy' && key !== 'sortOrder') {
       filter[key] = { $regex: query[key], $options: 'i' };
     }
   }
-  console.log(filter);
   const role = await Role.find(filter).sort({ [sortField]: order });
-  console.log(role);
   return role;
 }
 
@@ -46,7 +43,7 @@ export async function listAllRoles(query, options?: OptionType) {
   return await listRoles(query, options);
 }
 
-export async function getRoleById(roleId: string, options?: OptionType) {
+export async function findRoleById(roleId: string) {
   if (!Types.ObjectId.isValid(roleId)) {
     throw new AppError('Invalid roleId', 400);
   }
@@ -66,7 +63,7 @@ export async function updateRole(
 ) {
   const columnUpdate = Object.fromEntries(
     Object.entries({ role, description, rights }).filter(
-      ([_, v]) => v !== undefined,
+      ([, v]) => v !== undefined,
     ),
   );
   return await Role.findOneAndUpdate(

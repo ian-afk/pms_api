@@ -5,8 +5,8 @@ import {
   getProjectId,
   getProjects,
   updateProjects,
+  deleteProject,
 } from '../controllers/projectController';
-import { deleteProject } from 'services/projectService';
 
 const router = Router();
 

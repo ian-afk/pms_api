@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import userRouter from './routes/userRoutes';
 import roleRouter from './routes/roleRoutes';
 import projectRouter from './routes/projectRoutes';
+import taskRouter from './routes/taskRoutes';
 import cors from 'cors';
 import { AppError } from './utils/AppError';
 import { globalErrorHandler } from './middlewares/errorHandler';
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRouter);
 app.use('/api/roles', roleRouter);
 app.use('/api/projects', projectRouter);
+app.use('/api/tasks', taskRouter);
 
 // new express way regex the app.all handler (before '*')
 app.all(/.*/, (req: Request, res: Response, next: NextFunction) => {

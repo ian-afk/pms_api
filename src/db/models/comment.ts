@@ -4,7 +4,7 @@ const commentSchema = new Schema(
   {
     comment: {
       type: String,
-      required: [true, 'comment cannot be null'],
+      required: [true, 'Comment cannot be null'],
     },
     task: {
       type: Schema.Types.ObjectId,
@@ -23,4 +23,4 @@ const commentSchema = new Schema(
   { timestamps: true },
 );
 
-export const Commnet = mongoose.model('Comment', commentSchema);
+export const Comment = mongoose.model('Comment', commentSchema);

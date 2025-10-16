@@ -1,3 +1,15 @@
+# NODE
 *node_modules
 .env
 /dist
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+.env
+
+.eslintcache

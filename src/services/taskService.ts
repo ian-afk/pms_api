@@ -1,5 +1,5 @@
 import { Task } from '../db/models/task';
-import { OptionType } from '../types/commonType';
+import type { OptionType } from '../types/commonType';
 import { AppError } from '../utils/AppError';
 
 type CreateTaskT = {

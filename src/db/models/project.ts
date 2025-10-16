@@ -14,10 +14,12 @@ const projectSchema = new Schema(
       type: String,
       default: 'New',
     },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    user: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   { timestamps: true },
 );

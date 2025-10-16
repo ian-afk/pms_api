@@ -20,6 +20,6 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "src/test"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "src/test/**/*"],
   "files": ["node_modules/@types/node/index.d.ts"]
 }

@@ -1,4 +1,4 @@
-import { deleteTask } from 'services/taskService';
+import { deleteTask } from '../services/taskService';
 import {
   createTask,
   getTaskById,

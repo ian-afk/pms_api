@@ -1,4 +1,5 @@
-import express, { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import userRouter from './routes/userRoutes';
 import roleRouter from './routes/roleRoutes';
 import projectRouter from './routes/projectRoutes';

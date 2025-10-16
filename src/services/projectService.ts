@@ -1,4 +1,4 @@
-import { OptionType } from '../types/commonType';
+import type { OptionType } from '../types/commonType';
 import { Project } from '../db/models/project';
 import { AppError } from '../utils/AppError';
 

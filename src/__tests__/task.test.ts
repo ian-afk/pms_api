@@ -55,7 +55,7 @@ describe('creating roles', () => {
       user: '',
       estStartTime: new Date('10-13-2025'),
       estEndTime: new Date('10-25-2025'),
-      priority: false,
+      priority: 'High',
       status: 'New',
       suppFiles: 'test.docs',
     };
@@ -74,7 +74,7 @@ describe('creating roles', () => {
       description: 'Task 1 project',
       estStartTime: new Date('10-13-2025'),
       estEndTime: new Date('10-25-2025'),
-      priority: false,
+      priority: 'Low',
     };
 
     const createdTask = await Task.create(task);
@@ -87,7 +87,7 @@ describe('creating roles', () => {
       user: '',
       estStartTime: new Date('10-13-2025'),
       estEndTime: new Date('10-25-2025'),
-      priority: false,
+      priority: 'Low',
       status: 'New',
       suppFiles: 'test.docs',
     };
@@ -108,14 +108,14 @@ const sampleTask = [
     description: 'Task 1 project',
     estStartTime: new Date('10-13-2025'),
     estEndTime: new Date('10-25-2025'),
-    priority: false,
+    priority: 'Low',
   },
   {
     task: 'Task 2',
     description: 'Task 2 project',
     estStartTime: new Date('10-13-2025'),
     estEndTime: new Date('10-25-2025'),
-    priority: false,
+    priority: 'Low',
   },
 ];
 
@@ -124,7 +124,7 @@ type CreatedTaskT = {
   description: string;
   estStartTime: Date;
   estEndTime: Date;
-  priority: boolean;
+  priority: string;
   _id: string;
 };
 

@@ -58,9 +58,9 @@ export async function findCommentById(commentId: string) {
 }
 
 interface UpdateCommentI {
-  comment: string;
-  task: string;
-  user: string;
+  comment?: string;
+  task?: string;
+  user?: string;
   suppFiles?: string[];
 }
 

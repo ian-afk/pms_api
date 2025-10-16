@@ -9,7 +9,7 @@ type CreateTaskT = {
   user?: string;
   estStartTime?: Date;
   estEndTime?: Date;
-  priority?: boolean;
+  priority?: string;
   status?: string;
   suppFiles?: string;
 };

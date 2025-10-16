@@ -18,7 +18,10 @@ const taskSchema = new Schema(
     },
     estStartTime: Date,
     estEndTime: Date,
-    priority: Boolean,
+    priority: {
+      type: String,
+      enum: ['Low', 'Medium', 'High', 'Showstopper'],
+    },
     status: {
       type: String,
       default: 'New',

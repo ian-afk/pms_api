@@ -1,12 +1,6 @@
-const { createDefaultPreset } = require('ts-jest');
+import type { Config } from 'jest';
 
-const tsJestTransformCfg = createDefaultPreset().transform;
-
-/** @type {import("jest").Config} **/
-module.exports = {
-  transform: {
-    ...tsJestTransformCfg,
-  },
+const config: Config = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   globals: {
@@ -17,4 +11,10 @@ module.exports = {
   globalSetup: '<rootDir>/src/test/globalSetup.ts',
   globalTeardown: '<rootDir>/src/test/globalTeardown.ts',
   setupFilesAfterEnv: ['<rootDir>/src/test/setupFilesAfterEnv.ts'],
+  // Optional: automatically map TypeScript paths from tsconfig
+  moduleNameMapper: {
+    '^@src/(.*)$': '<rootDir>/src/$1',
+  },
 };
+
+module.exports = config;

@@ -1,0 +1,13 @@
+| Type         | Description                            | Example                                       |
+| ------------ | -------------------------------------- | --------------------------------------------- |
+| **feat**     | A new feature                          | `feat(auth): add JWT-based login`             |
+| **fix**      | A bug fix                              | `fix(api): correct status code for 404 error` |
+| **docs**     | Documentation updates                  | `docs(readme): add setup instructions`        |
+| **style**    | Code style changes (no logic change)   | `style(ui): fix button alignment`             |
+| **refactor** | Code restructure (no feature or fix)   | `refactor(utils): simplify date parser`       |
+| **perf**     | Performance improvement                | `perf(api): reduce query response time`       |
+| **test**     | Add or fix tests                       | `test(user): add missing unit tests`          |
+| **build**    | Changes to build tools or dependencies | `build(deps): update mongoose to v7`          |
+| **ci**       | Continuous Integration changes         | `ci(github): add workflow for testing`        |
+| **chore**    | Maintenance or general cleanup         | `chore: remove unused imports`                |
+| **revert**   | Revert a previous commit               | `revert: "feat(auth): add JWT-based login"`   |

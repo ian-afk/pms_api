@@ -20,7 +20,7 @@ const taskSchema = new Schema(
     estEndTime: Date,
     priority: {
       type: String,
-      enum: ['Low', 'Medium', 'Higgh', 'Showstopper'],
+      enum: ['Low', 'Medium', 'High', 'Showstopper'],
     },
     status: {
       type: String,

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { AppError } from '../utils/AppError';
 import { Types } from 'mongoose';
 
-import { OptionType } from '../types/commonType';
+import type { OptionType } from '../types/commonType';
 
 const signToken = (id: string) =>
   jwt.sign({ id }, process.env.JWT_SECRET as string, {

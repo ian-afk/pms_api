@@ -5,7 +5,7 @@ import {
   updateTask as updateTaskService,
   deleteTask as deleteTaskService,
 } from '../services/taskService';
-import { listAllProject } from 'services/projectService';
+import { listAllProject } from '../services/projectService';
 
 export const createTask = catchAsync(async (req, res) => {
   const newTask = await createTaskService(req.body);

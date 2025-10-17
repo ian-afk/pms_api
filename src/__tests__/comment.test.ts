@@ -43,7 +43,7 @@ describe('creating comment', () => {
       description: 'Task 1 project',
       estStartTime: new Date('10-13-2025'),
       estEndTime: new Date('10-25-2025'),
-      priority: false,
+      priority: 'Low',
       status: 'New',
       suppFiles: 'test.docs',
     };
@@ -87,7 +87,7 @@ describe('creating comment', () => {
       description: 'Task 1 project',
       estStartTime: new Date('10-13-2025'),
       estEndTime: new Date('10-25-2025'),
-      priority: false,
+      priority: 'Low',
       status: 'New',
       suppFiles: 'test.docs',
     };
@@ -176,7 +176,7 @@ beforeEach(async () => {
     description: 'Task 1 project',
     estStartTime: new Date('10-13-2025'),
     estEndTime: new Date('10-25-2025'),
-    priority: false,
+    priority: 'Low',
     status: 'New',
     suppFiles: 'test.docs',
   };

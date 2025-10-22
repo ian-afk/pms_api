@@ -36,6 +36,12 @@ export const protect = catchAsync(async (req, res, next) => {
     return next(new AppError('Please login again.', 401));
   }
 
-  //   req.user = currentUser;
+  req.user = {
+    id: decoded.id,
+    user: {
+      username: currentUser.username,
+      fullName: currentUser.name,
+    },
+  };
   next();
 });

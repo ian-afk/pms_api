@@ -3,6 +3,7 @@ import { Role } from '../db/models/roles';
 import { AppError } from '../utils/AppError';
 
 import type { OptionType } from '../types/commonType';
+import { validRights } from '../utils/common';
 
 interface IUpdateRole {
   role?: string;
@@ -17,6 +18,9 @@ export async function createRole({ role, description, rights }) {
     rights,
   });
 
+  if (!rights) throw new AppError('Field rights is required', 400);
+
+  validRights(rights);
   return await newRole.save();
 }
 

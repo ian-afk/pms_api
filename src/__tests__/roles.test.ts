@@ -11,6 +11,7 @@ import {
 import { Rights } from '../utils/common';
 import mongoose from 'mongoose';
 import { Role } from '../db/models/roles';
+import { AppError } from '../utils/AppError';
 
 type CreatedRoleT = {
   role: string;
@@ -65,8 +66,8 @@ describe('create role', () => {
     try {
       await createRole(roleData);
     } catch (error) {
-      const err = error as mongoose.Error.ValidationError;
-      expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+      const err = error as AppError;
+      expect(err).toBeInstanceOf(AppError);
       expect(err.message).toBeDefined();
     }
   });

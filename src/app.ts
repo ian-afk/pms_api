@@ -8,6 +8,8 @@ import cors from 'cors';
 import { AppError } from './utils/AppError';
 import { globalErrorHandler } from './middlewares/errorHandler';
 
+import { Rights } from './utils/common';
+
 const app = express();
 
 app.use(express.json());
@@ -22,7 +24,14 @@ app.use('/api/users', userRouter);
 app.use('/api/roles', roleRouter);
 app.use('/api/projects', projectRouter);
 app.use('/api/tasks', taskRouter);
+app.get('/api/rights', async (req, res) => {
+  const rights = Rights;
 
+  res.status(200).json({
+    status: 'success',
+    rights,
+  });
+});
 // new express way regex the app.all handler (before '*')
 app.all(/.*/, (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} with the server`, 404));
